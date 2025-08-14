@@ -1,1 +1,1 @@
-# Minogra-kanali-ga-site-yaratish
+# Minogra-kanali-site-hush-kelipsiz-yaqin-orada-anime-yuklaymiz
