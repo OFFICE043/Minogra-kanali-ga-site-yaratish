@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime Ro'yxati</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .anime-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        .anime-card {
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .anime-card img {
+            width: 100%;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Anime Ro'yxati</h1>
+<div class="anime-list" id="animeList"></div>
+
+<script type="module">
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js'
+
+    const SUPABASE_URL = 'https://mbgjbbrhhrymimurewqs.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1iZ2piYnJoaHJ5bWltdXJld3FzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTUxODgxMzIsImV4cCI6MjA3MDc2NDEzMn0.dYSGQH5D-lDYhOoq_7WUVT7iV-a-oDdWRTJwCFXuIXk';
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    async function loadAnime() {
+        const { data, error } = await supabase
+            .from('anime') // ← базаңдағы кесте атауы
+            .select('*');
+
+        if (error) {
+            console.error('Xatolik:', error);
+            return;
+        }
+
+        const list = document.getElementById('animeList');
+        list.innerHTML = '';
+
+        data.forEach(anime => {
+            const card = document.createElement('div');
+            card.className = 'anime-card';
+            card.innerHTML = `
+                <img src="${anime.image_url}" alt="${anime.title}">
+                <h3>${anime.title}</h3>
+            `;
+            list.appendChild(card);
+        });
+    }
+
+    loadAnime();
+</script>
+
+</body>
+</html>
